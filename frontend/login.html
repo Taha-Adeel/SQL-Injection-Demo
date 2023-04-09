@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="login.css">
     
 
 </head>
@@ -26,21 +27,32 @@
   
       <div class="container">
         <div class="jumbotron">
-          <h1>Log In Page</h1>
+          <h1>SQL Injection Test</h1>
           <p>Enter your credentials</p>
         </div>
   
       </div>
   
+      
+
       <div class="container">
-  
+        
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="protection choice" id="inlineRadio1" value="Yes">
+            <label class="form-check-label" for="inlineRadio1">With Protection</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="protection choice" id="inlineRadio2" value="No">
+            <label class="form-check-label" for="inlineRadio2">Without Protection</label>
+          </div>
+
   
       <form class="form-group">
-        <label for="userem">Email:</label>
-        <input type="email" class="form-control" name="userem" placeholder="Email">
+        <label for="userem">Username:</label>
+        <input type="email" class="form-control" name="userem" placeholder="username">
   
         <label for="userpass">Password:</label>
-        <input type="password" class="form-control" id = "input" name="passwd" placeholder="Password">
+        <input type="password" class="form-control" id = "input" name="passwd" placeholder="password">
         
         <div class="checkbox">
           <label for="usercheck">
