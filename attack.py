@@ -147,7 +147,7 @@ if __name__ == '__main__':
 	# ports = get_open_ports(ip)
 	ports = ['22', '4451', '4461']
 
-	count = "20" #no. of times attack is performed
+	count = "20" #no. of iterations
 
 
 
