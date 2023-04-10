@@ -76,7 +76,6 @@ def get_flag_2():
 	return 'flag2{Cybersecurity_is_not_just_about_technology,_it\'s_also_about_people}'
 
 def get_password():
-
 	vulnerable_port = ports[2]
 
 	print('Performing heartbleed attack to obtain password...')
@@ -120,6 +119,9 @@ def get_flag_3():
 		print("Flag 3 not found\n")
 
 def get_flag_4():
+	file_to_read = "/flag4.txt"
+
+
 	return 'flag4{I\'m_not_sure_if_this_is_a_good_idea}'
 
 
