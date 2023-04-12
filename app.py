@@ -38,10 +38,8 @@ def login():
         protection_choice = request.form['protection_choice']
 
         if protection_choice == 'safe':
-            flash('You are using the safe version of the application.')
             user = find_user_safe(username, password)
         else:
-            flash('You are using the unsafe version of the application. Please use the safe version instead.')
             user = find_user_unsafe(username, password)
 
         if user:
