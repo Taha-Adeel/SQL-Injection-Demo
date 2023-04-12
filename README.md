@@ -12,14 +12,16 @@ In this project, we demonstrate how SQL injection attacks work and the measures 
 
 ## Installation and setup
 
-* First install flask and mySQL: \
+* First install flask and mySQL: \ 
 `pip3 install flask` \
 `pip3 install mysql-connector-python`
 
+* You also need to ensure your system has mySQL. Install it with the command `sudo apt-get install mysql-server` if mysql is not present. You will also need to configure the root password for mySQL (google). Then in app.py, change the values of username and password to your mySQL root username and password.
+
 * Then run the following commands to create the database and table:\
-`mysql -u root -p` \
-`CREATE DATABASE demo;` \
-`USE demo;` \
+`mysql -u root -p`   # enter your password when prompted (configured above) \
+`CREATE DATABASE users_db;` \
+`USE users_db;` \
 `CREATE TABLE users (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), password VARCHAR(255));` \
 `INSERT INTO users (username, password) VALUES ('admin', 'password');` \
 `INSERT INTO users (username, password) VALUES ('user', 'password');` \
