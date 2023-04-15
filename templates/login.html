@@ -63,6 +63,16 @@
         </script>
       </form>
       <p>
+        {% if query %}
+          <div class="alert alert-info" role="alert">
+            Query run: {{ query }}
+          </div>
+          <div class="alert alert-info" role="alert">
+            Response by the database: {{ user }}
+          </div>
+        {% endif %}
+      </p>
+      <p>
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             {% for message in messages %}

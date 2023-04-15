@@ -18,7 +18,7 @@ def find_user_unsafe(username: str, password: str):
     query = 'SELECT * FROM users WHERE username ="' + username + '" AND password ="' + password + '"'
     mycursor.execute(query)
     user = mycursor.fetchall()
-    return user
+    return user, query
 
 # Run the sql query to find the user with the given username and password by using parameterized queries, hence ensuring the input is sanitized
 def find_user_safe(username: str, password: str):
@@ -26,8 +26,9 @@ def find_user_safe(username: str, password: str):
     query = 'SELECT * FROM users WHERE username = %s AND password = %s'
     values = (username, password)
     mycursor.execute(query, values)
+    query_str = mycursor.statement
     user = mycursor.fetchall()
-    return user
+    return user, query_str
 
 # Route for login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -38,9 +39,9 @@ def login():
         protection_choice = request.form['protection_choice']
 
         if protection_choice == 'safe':
-            user = find_user_safe(username, password)
+            user, query = find_user_safe(username, password)
         else:
-            user = find_user_unsafe(username, password)
+            user, query = find_user_unsafe(username, password)
 
         if user:
             # If the user exists, store the user id in the session
@@ -51,7 +52,7 @@ def login():
             flash('Incorrect username or password.')
             
 
-        return render_template('login.html', user=user)
+        return render_template('login.html', user=user, query=query)
 
     else:
         # If the request method is GET, show the login page
