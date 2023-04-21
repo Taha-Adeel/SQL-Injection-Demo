@@ -15,7 +15,7 @@ mydb = mysql.connector.connect(
 # Run the sql query to find the user with the given username and password without sanitizing the input
 def find_user_unsafe(username: str, password: str):
     mycursor = mydb.cursor()
-    query = 'SELECT * FROM users WHERE username ="' + username + '" AND password ="' + password + '"'
+    query = "SELECT * FROM users WHERE username ='" + username + "' AND password ='" + password + "'" # This is vulnerable to SQL injection
     mycursor.execute(query)
     user = mycursor.fetchall()
     return user, query
@@ -52,7 +52,7 @@ def login():
             flash('Incorrect username or password.')
             
 
-        return render_template('login.html', user=user, query=query)
+        return render_template('login.html', user=user, query=query, username=username, password=password, vulnerable=(protection_choice == 'unsafe'))
 
     else:
         # If the request method is GET, show the login page
